@@ -1,0 +1,25 @@
+/* General container styling (optional) */
+title {
+  text-align: center; /* Center-aligns the text */
+  margin: 20px;
+}
+
+/* Title styling */
+h1 {
+  font-size: 2.5rem; /* Adjust size for the main title */
+  font-weight: bold; /* Makes the title bold */
+  color: #333; /* Dark gray color */
+  margin-bottom: 10px; /* Adds space between title and subtitle */
+}
+
+/* Subtitle styling */
+h2 {
+  font-size: 1.5rem; /* Slightly smaller than the title */
+  font-weight: 300; /* Lighter font weight */
+  color: #666; /* Lighter gray color */
+  margin-top: 0; /* Removes extra margin */
+}
+
+p {
+  color: red;
+}

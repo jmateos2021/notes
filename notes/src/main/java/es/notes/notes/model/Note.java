@@ -16,6 +16,9 @@ public class Note {
     private String content;
     private boolean completed;
 
+    public Note () {
+    }
+
     public boolean isCompleted() {
         return completed;
     }
