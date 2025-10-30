@@ -31,7 +31,7 @@ public class NoteService {
 
 //    Show only the note specified by ID
     public Optional<Note> findNoteById(Long id){
-        return noteRepository.findById(id);
+        return Optional.of(noteRepository.findById(id).get());
     }
 
 //    Delete the note
@@ -45,8 +45,13 @@ public class NoteService {
     }
 
 //    Edit note
-    public void updateNote(Long id, String content, String title) {
-        noteRepository.findById(id).get().setContent(content);
-        noteRepository.findById(id).get().setTitle(title);
+    public Note updateNote(Long id, String title, String content) {
+        Optional<Note> optionalNote = noteRepository.findById(id);
+
+        Note note = optionalNote.get();
+        note.setTitle(title);
+        note.setContent(content);
+
+        return noteRepository.save(note);
     }
 }

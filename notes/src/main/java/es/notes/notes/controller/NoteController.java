@@ -48,10 +48,10 @@ public class NoteController {
         return "redirect:/api/notes";
     }
 
-//    @PutMapping
-//    public String updateNote(Long id, Model model, String title, String content) {
-//        model.addAttribute(noteService.updateNote());
-//        return "redirect:/api/notes";
-//    }
+    @PutMapping
+    public String updateNote(Long id, Model model, String title, String content) {
+        model.addAttribute(noteService.updateNote(id, title, content));
+        return "redirect:/api/notes";
+    }
 
 }
