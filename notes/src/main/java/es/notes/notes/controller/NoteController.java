@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 
 @Controller
 @RequestMapping("/api/notes")
@@ -21,37 +19,45 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping("/create")
-    public String createNote(@ModelAttribute("note") Model model, Note note) {
-        model.addAttribute("Note", noteService.saveNote(note));
-        return "redirect:/api/notes";
-    }
-
-    @GetMapping("/")
+    @GetMapping
     public String getAllNotes(Model model) {
-        model.addAttribute("Notes", noteService.allNotes());
+        model.addAttribute("notes", noteService.allNotes());
         return "index";
     }
 
+    @GetMapping("/newNote")
+    public String goToNewNote(Model model) {
+        model.addAttribute("note", new Note());
+        return "newNote";
+    }
+
+    @PostMapping("/create")
+    public String createNote(@ModelAttribute("note") Note note) {
+        noteService.saveNote(note);
+        return "redirect:/api/notes";
+    }
+
     @GetMapping("/{id}")
-    public String getNote(Long id, Model model) {
+    public String getNote(@RequestParam("id") Long id, Model model) {
         Note note = noteService.findNoteById(id)
                 .orElseThrow(() -> new RuntimeException("Note not found."));
-        model.addAttribute("Note", note);
-        return "notes";
+        model.addAttribute("note", note);
+        return "noteDesc";
 
     }
 
     @DeleteMapping
-    public String deleteNote(Note note, Model model) {
+    public String deleteNote(Model model, Note note) {
         noteService.deleteNote(note);
         return "redirect:/api/notes";
     }
 
     @PutMapping
-    public String updateNote(Long id, Model model, String title, String content) {
+    public String updateNote(Model model, Long id, String title, String content) {
         model.addAttribute(noteService.updateNote(id, title, content));
         return "redirect:/api/notes";
     }
+
+//   TODO MAS COSAS YOKSE
 
 }
