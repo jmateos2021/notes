@@ -38,7 +38,7 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public String getNote(@RequestParam("id") Long id, Model model) {
+    public String getNote(@PathVariable Long id, Model model) {
         Note note = noteService.findNoteById(id)
                 .orElseThrow(() -> new RuntimeException("Note not found."));
         model.addAttribute("note", note);
@@ -46,15 +46,15 @@ public class NoteController {
 
     }
 
-    @DeleteMapping
-    public String deleteNote(Model model, Note note) {
-        noteService.deleteNote(note);
+    @PostMapping("/delete/{id}")
+    public String deleteNote(@PathVariable Long id) {
+        noteService.deleteNoteById(id);
         return "redirect:/api/notes";
     }
 
-    @PutMapping
-    public String updateNote(Model model, Long id, String title, String content) {
-        model.addAttribute(noteService.updateNote(id, title, content));
+    @PostMapping("/{id}/update")
+    public String updateNote(@PathVariable Long id, Model model, String title, String content, boolean completed) {
+        model.addAttribute(noteService.updateNote(id, title, content, completed));
         return "redirect:/api/notes";
     }
 

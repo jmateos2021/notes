@@ -35,8 +35,8 @@ public class NoteService {
     }
 
 //    Delete the note
-    public void deleteNote(Note note) {
-        noteRepository.delete(note);
+    public void deleteNoteById(Long id) {
+        noteRepository.deleteById(id);
     }
 
 //    The note exists
@@ -45,12 +45,13 @@ public class NoteService {
     }
 
 //    Edit note
-    public Note updateNote(Long id, String title, String content) {
+    public Note updateNote(Long id, String title, String content, boolean completed) {
         Optional<Note> optionalNote = noteRepository.findById(id);
 
         Note note = optionalNote.get();
         note.setTitle(title);
         note.setContent(content);
+        note.setCompleted(completed);
 
         return noteRepository.save(note);
     }

@@ -11,12 +11,14 @@
           crossorigin="anonymous">
 </head>
 <body>
-<select class="form-select form-select-lg mb-3" aria-label="Large select example">
-    <option selected>Open this select menu</option>
-    <option value="1">Must</option>
-    <option value="2">Recordatory</option>
-    <option value="3">Studying</option>
-</select>
+<h1>New Note</h1>
+<!--<label  class="form-label">Note type</label>-->
+<!--<select class="form-select form-select-sm mb-3" aria-label="NoteType" id="type">-->
+<!--    <option selected>Select the note type</option>-->
+<!--    <option value="1">Must</option>-->
+<!--    <option value="2">Reminder</option>-->
+<!--    <option value="3">Studying</option>-->
+<!--</select>-->
 <form th:action="@{/api/notes/create}" th:object="${note}" method="post">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -24,14 +26,14 @@
     </div>
     <div class="mb-3">
         <label for="content" class="form-label">Content</label>
-        <input type="text" class="form-control" id="content" th:field="*{content}" required aria-describedby="inputContent" >
-        <div id="inputContent" class="form-text">Write here the content of your note.</div>
+        <input type="text" class="form-control" id="content" th:field="*{content}" required placeholder="Write here the content of your note">
+<!--        <div id="inputContent" class="form-text">Write here the content of your note.</div>-->
     </div>
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="completed" th:field="*{completed}">
         <label class="form-check-label" for="completed">Completed</label>
     </div>
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-warning">Submit</button>
 </form>
 
     <a class="btn btn-outline-secondary" href="/api/notes">Back</a>
