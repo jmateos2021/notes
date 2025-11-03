@@ -14,6 +14,11 @@ public class NoteController {
 
     private NoteService noteService;
 
+    private Note findNoteByIdOrThrow(Long id) {
+        return noteService.findNoteById(id)
+                .orElseThrow(() -> new RuntimeException("Note not found."));
+    }
+
     @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
@@ -38,12 +43,10 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public String getNote(@PathVariable Long id, Model model) {
-        Note note = noteService.findNoteById(id)
-                .orElseThrow(() -> new RuntimeException("Note not found."));
+    public String showNote(@PathVariable Long id, Model model) {
+        Note note = findNoteByIdOrThrow(id);
         model.addAttribute("note", note);
-        return "noteDesc";
-
+        return "noteDesc"; //Read only form
     }
 
     @PostMapping("/delete/{id}")
@@ -52,12 +55,17 @@ public class NoteController {
         return "redirect:/api/notes";
     }
 
-    @PostMapping("/{id}/update")
-    public String updateNote(@PathVariable Long id, Model model, String title, String content, boolean completed) {
-        model.addAttribute(noteService.updateNote(id, title, content, completed));
-        return "redirect:/api/notes";
+    @GetMapping("/{id}/edit")
+    public String editNote(@PathVariable Long id, Model model) {
+        Note note = findNoteByIdOrThrow(id);
+        model.addAttribute("note", note);
+        return "noteEdit"; //Write form for editing and update note
     }
 
-//   TODO MAS COSAS YOKSE
+    @PostMapping("/{id}/update")
+    public String updateNote(@PathVariable Long id, @ModelAttribute Note note) {
+        noteService.updateNote(note);
+        return "redirect:/api/notes";
+    }
 
 }

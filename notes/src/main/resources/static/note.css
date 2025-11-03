@@ -1,45 +1,139 @@
-/* General container styling (optional) */
-title {
-  text-align: center; /* Center-aligns the text */
-  margin: 20px;
+/* =======================
+   Body general
+======================= */
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
 }
 
-/* Title styling */
-h1 {
-  font-size: 2.5rem; /* Adjust size for the main title */
-  font-weight: bold; /* Makes the title bold */
-  color: #333; /* Dark gray color */
-  margin-bottom: 10px; /* Adds space between title and subtitle */
+/* =======================
+   Container de notas
+======================= */
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
-/* Subtitle styling */
-h2 {
-  font-size: 1.5rem; /* Slightly smaller than the title */
-  font-weight: 300; /* Lighter font weight */
-  color: #666; /* Lighter gray color */
-  margin-top: 0; /* Removes extra margin */
+/* =======================
+   Post-it cards
+======================= */
+.note-card {
+    width: 220px;
+    min-height: 180px;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    position: relative;
+    color: #212529;
+    display: inline-block;
+    animation: fadeInCard 0.5s forwards;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    /* Color base de los post-its, puedes cambiar para variedad */
+    background-color: #fffacd;
 }
 
+/* Hover efecto levitar */
+.note-card:hover {
+    transform: translateY(-8px); /* levanta la tarjeta */
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25); /* sombra más profunda */
+}
 
-/*Button & Forms styling*/
-$input-btn-padding-y:         .375rem;
-$input-btn-padding-x:         .75rem;
-$input-btn-font-family:       null;
-$input-btn-font-size:         $font-size-base;
-$input-btn-line-height:       $line-height-base;
+/* Colores pastel aleatorios sin rotación */
+.note-card:nth-child(1) { background-color: #fff9c4; }
+.note-card:nth-child(2) { background-color: #ffccbc; }
+.note-card:nth-child(3) { background-color: #c8e6c9; }
+.note-card:nth-child(4) { background-color: #bbdefb; }
+.note-card:nth-child(5) { background-color: #e1bee7; }
+.note-card:nth-child(6) { background-color: #ffe0b2; }
 
-$input-btn-focus-width:         $focus-ring-width;
-$input-btn-focus-color-opacity: $focus-ring-opacity;
-$input-btn-focus-color:         $focus-ring-color;
-$input-btn-focus-blur:          $focus-ring-blur;
-$input-btn-focus-box-shadow:    $focus-ring-box-shadow;
+/* =======================
+   Animaciones
+======================= */
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-$input-btn-padding-y-sm:      .25rem;
-$input-btn-padding-x-sm:      .5rem;
-$input-btn-font-size-sm:      $font-size-sm;
+/* =======================
+   Título y contenido
+======================= */
+.note-card h5 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 
-$input-btn-padding-y-lg:      .5rem;
-$input-btn-padding-x-lg:      1rem;
-$input-btn-font-size-lg:      $font-size-lg;
+.note-card p {
+    font-size: 0.95rem;
+    line-height: 1.3rem;
+}
 
-$input-btn-border-width:      var(--#{$prefix}border-width);
+/* =======================
+   Botones de acción
+======================= */
+.note-card .action-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.btn-view { background-color: #0d6efd; color: #fff; }
+.btn-edit { background-color: #ffc107; color: #212529; }
+.btn-delete { background-color: #dc3545; color: #fff; }
+
+.btn-view:hover, .btn-edit:hover, .btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* =======================
+   Badge de completado
+======================= */
+.completed-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #198754;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+}
+
+/* =======================
+   Forms (edit/new)
+======================= */
+.edit-card, .new-card {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+    background-color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.edit-card:hover, .new-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.25);
+}
+
+input:focus, textarea:focus {
+    border-color: #198754;
+    box-shadow: 0 0 5px rgba(25,135,84,0.5);
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.btn-update { background-color: #198754; color: #fff; }
+.btn-cancel { background-color: #6c757d; color: #fff; }
+
+.btn-update:hover, .btn-cancel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}

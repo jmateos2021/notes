@@ -19,40 +19,40 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
-//    Create a note
-    public Note saveNote(Note note) {
-        return noteRepository.save(note);
+    //    Create a note
+    public void saveNote(Note note) {
+        noteRepository.save(note);
     }
 
-//    Show every created note
+    //    Show every created note
     public List<Note> allNotes() {
         return noteRepository.findAll();
     }
 
-//    Show only the note specified by ID
-    public Optional<Note> findNoteById(Long id){
+    //    Show only the note specified by ID
+    public Optional<Note> findNoteById(Long id) {
         return Optional.of(noteRepository.findById(id).get());
     }
 
-//    Delete the note
+    //    Delete the note
     public void deleteNoteById(Long id) {
         noteRepository.deleteById(id);
     }
 
-//    The note exists
+    //    The note exists
     public boolean existsById(Long id) {
         return noteRepository.existsById(id);
     }
 
-//    Edit note
-    public Note updateNote(Long id, String title, String content, boolean completed) {
-        Optional<Note> optionalNote = noteRepository.findById(id);
+    //    Update note
+    public Note updateNote(Note note) {
+        Optional<Note> optionalNote = noteRepository.findById(note.getId());
 
-        Note note = optionalNote.get();
-        note.setTitle(title);
-        note.setContent(content);
-        note.setCompleted(completed);
+        Note existingNote = optionalNote.get();
+        existingNote.setTitle(note.getTitle());
+        existingNote.setContent(note.getContent());
+        existingNote.setCompleted(note.isCompleted());
 
-        return noteRepository.save(note);
+        return noteRepository.save(existingNote);
     }
 }
