@@ -31,7 +31,7 @@ public class NoteService {
 
     //    Show only the note specified by ID
     public Optional<Note> findNoteById(Long id) {
-        return Optional.of(noteRepository.findById(id).get());
+        return noteRepository.findById(id);
     }
 
     //    Delete the note

@@ -10,15 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/api/notes")
+@RequestMapping("/notes")
 public class NoteController {
 
     private NoteService noteService;
-
-    private Note findNoteByIdOrThrow(Long id) {
-        return noteService.findNoteById(id)
-                .orElseThrow(() -> new NoteNotFoundException(id));
-    }
 
     @Autowired
     public NoteController(NoteService noteService) {
@@ -40,12 +35,15 @@ public class NoteController {
     @PostMapping("/create")
     public String createNote(@ModelAttribute("note") Note note) {
         noteService.saveNote(note);
-        return "redirect:/api/notes";
+        return "redirect:/notes";
     }
 
     @GetMapping("/{id}")
     public String showNote(@PathVariable Long id, Model model) {
-        Note note = findNoteByIdOrThrow(id);
+        Note note = noteService.findNoteById(id)
+                .orElseThrow(() -> {
+                    return new NoteNotFoundException(id);
+                });
         model.addAttribute("note", note);
         return "noteDesc"; //Read only form
     }
@@ -53,12 +51,13 @@ public class NoteController {
     @DeleteMapping("/delete/{id}")
     public String deleteNote(@PathVariable Long id) {
         noteService.deleteNoteById(id);
-        return "redirect:/api/notes";
+        return "redirect:/notes";
     }
 
     @GetMapping("/{id}/edit")
     public String editNote(@PathVariable Long id, Model model) {
-        Note note = findNoteByIdOrThrow(id);
+        Note note = noteService.findNoteById(id)
+                .orElseThrow(() -> new NoteNotFoundException(id));
         model.addAttribute("note", note);
         return "noteEdit"; //Write form for editing and update note
     }
@@ -66,7 +65,7 @@ public class NoteController {
     @PutMapping("/{id}/update")
     public String updateNote(@PathVariable Long id, @ModelAttribute Note note) {
         noteService.updateNote(note);
-        return "redirect:/api/notes";
+        return "redirect:/notes";
     }
 
 }

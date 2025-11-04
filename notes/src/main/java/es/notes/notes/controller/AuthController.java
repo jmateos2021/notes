@@ -2,6 +2,7 @@ package es.notes.notes.controller;
 
 import es.notes.notes.exception.DuplicateUsernameException;
 import es.notes.notes.service.AuthService;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;

@@ -9,7 +9,7 @@
 <body>
 <div class="new-card">
     <h2 class="mb-4 text-center">Create a New Note</h2>
-    <form th:action="@{/api/notes/create}" th:object="${note}" method="post">
+    <form th:action="@{/notes/create}" th:object="${note}" method="post">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Enter title..." required>
@@ -24,7 +24,7 @@
         </div>
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-update btn-lg">Create</button>
-            <a th:href="@{/api/notes}" class="btn btn-cancel btn-lg">Cancel</a>
+            <a th:href="@{/notes}" class="btn btn-cancel btn-lg">Cancel</a>
         </div>
     </form>
 </div>
