@@ -1,9 +1,6 @@
 package es.notes.notes.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Note {
@@ -15,6 +12,20 @@ public class Note {
     private String title;
     private String content;
     private boolean completed;
+
+//    Añado dueño nota y relacion
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private AppUser owner;
+
+    public AppUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(AppUser owner) {
+        this.owner = owner;
+    }
+
 
     public Note () {
     }

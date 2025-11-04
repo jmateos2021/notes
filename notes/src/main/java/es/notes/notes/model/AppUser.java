@@ -2,6 +2,9 @@ package es.notes.notes.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class AppUser {
     @Id
@@ -16,6 +19,19 @@ public class AppUser {
 
     @Column(nullable = false, length = 30)
     private String role;
+
+//    Relacion y añado notas
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes = new ArrayList<>();
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
 
     public AppUser(){}
 

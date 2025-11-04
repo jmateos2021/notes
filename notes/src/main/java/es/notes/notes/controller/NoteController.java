@@ -4,6 +4,7 @@ import es.notes.notes.exception.NoteNotFoundException;
 import es.notes.notes.model.Note;
 import es.notes.notes.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,9 @@ public class NoteController {
     }
 
     @GetMapping
-    public String getAllNotes(Model model) {
-        model.addAttribute("notes", noteService.allNotes());
+    public String getAllNotes(Model model,
+                              @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        model.addAttribute("notes", noteService.allNotesFor(authUser.getUsername()));
         return "index";
     }
 

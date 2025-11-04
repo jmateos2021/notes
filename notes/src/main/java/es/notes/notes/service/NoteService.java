@@ -1,6 +1,8 @@
 package es.notes.notes.service;
 
+import es.notes.notes.model.AppUser;
 import es.notes.notes.model.Note;
+import es.notes.notes.repository.AppUserRepository;
 import es.notes.notes.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,47 +14,51 @@ import java.util.Optional;
 public class NoteService {
 
     //Create repository attribute for the service to connect with it
-    private NoteRepository noteRepository;
+    private final NoteRepository noteRepository;
+    private final AppUserRepository userRepository;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, AppUserRepository userRepository) {
         this.noteRepository = noteRepository;
+        this.userRepository = userRepository;
     }
 
     //    Create a note
-    public void saveNote(Note note) {
+    public void saveNoteFor(Note note, String username) {
+        AppUser owner = userRepository.findByUsername(username).orElseThrow();
+        note.setOwner(owner);
         noteRepository.save(note);
     }
 
     //    Show every created note
-    public List<Note> allNotes() {
-        return noteRepository.findAll();
+    public List<Note> allNotesFor(String username) {
+        return noteRepository.findByOwnerUsername(username);
     }
 
     //    Show only the note specified by ID
-    public Optional<Note> findNoteById(Long id) {
-        return noteRepository.findById(id);
+    public Optional<Note> findNoteByIdFor(Long id, String username) {
+        return noteRepository.findByIdAndOwnerUsername(id, username);
     }
 
     //    Delete the note
-    public void deleteNoteById(Long id) {
-        noteRepository.deleteById(id);
+    public void deleteNoteByIdFor(Long id, String username) {
+        Note n = noteRepository.findByIdAndOwnerUsername(id, username).orElseThrow();
+        noteRepository.delete(n);
     }
 
     //    The note exists
-    public boolean existsById(Long id) {
-        return noteRepository.existsById(id);
+    public boolean existsByIdFor(Long id, String username) {
+        Note n = noteRepository.findByIdAndOwnerUsername(id, username).orElseThrow();
+        return noteRepository.existsById(n.getId());
     }
 
     //    Update note
-    public Note updateNote(Note note) {
-        Optional<Note> optionalNote = noteRepository.findById(note.getId());
+    public Note updateNoteFor(Note note, String username) {
+        Note n = noteRepository.findByIdAndOwnerUsername(note.getId(),username).orElseThrow();
+        n.setTitle(note.getTitle());
+        n.setContent(note.getContent());
+        n.setCompleted(note.isCompleted());
 
-        Note existingNote = optionalNote.get();
-        existingNote.setTitle(note.getTitle());
-        existingNote.setContent(note.getContent());
-        existingNote.setCompleted(note.isCompleted());
-
-        return noteRepository.save(existingNote);
+        return noteRepository.save(n);
     }
 }
