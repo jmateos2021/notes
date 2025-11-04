@@ -1,6 +1,7 @@
 package es.notes.notes.controller;
 
 import es.notes.notes.exception.DuplicateUsernameException;
+import es.notes.notes.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping("/register")
-    public String registerForm(){
+    public String registerForm() {
         return "register";
     }
 
@@ -35,10 +36,10 @@ public class AuthController {
     public String register(@RequestParam @NotBlank String username,
                            @RequestParam @NotBlank String password,
                            Model model) {
-        try{
+        try {
             authService.register(username, password);
             return "redirect:/login?registered";
-                    } catch (DuplicateUsernameException e) {
+        } catch (DuplicateUsernameException e) {
             model.addAttribute("error", e.getMessage());
             return "/register";
         }

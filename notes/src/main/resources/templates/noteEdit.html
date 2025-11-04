@@ -10,6 +10,9 @@
 <div class="edit-card">
     <h2 class="mb-4 text-center">Edit Note</h2>
     <form th:action="@{/api/notes/{id}/update(id=${note.id})}" th:object="${note}" method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" th:field="*{title}" required>

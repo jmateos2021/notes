@@ -1,5 +1,6 @@
 package es.notes.notes.controller;
 
+import es.notes.notes.exception.NoteNotFoundException;
 import es.notes.notes.model.Note;
 import es.notes.notes.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class NoteController {
 
     private Note findNoteByIdOrThrow(Long id) {
         return noteService.findNoteById(id)
-                .orElseThrow(() -> new RuntimeException("Note not found."));
+                .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
     @Autowired
@@ -49,7 +50,7 @@ public class NoteController {
         return "noteDesc"; //Read only form
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteNote(@PathVariable Long id) {
         noteService.deleteNoteById(id);
         return "redirect:/api/notes";
@@ -62,7 +63,7 @@ public class NoteController {
         return "noteEdit"; //Write form for editing and update note
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}/update")
     public String updateNote(@PathVariable Long id, @ModelAttribute Note note) {
         noteService.updateNote(note);
         return "redirect:/api/notes";
