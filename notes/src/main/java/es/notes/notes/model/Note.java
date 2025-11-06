@@ -13,7 +13,10 @@ public class Note {
     private String content;
     private boolean completed;
 
-//    Añado dueño nota y relacion
+    // Añado propietario nota. Relación muchos a uno, cada nota pertenece a un AppUser.
+    // Lazy: Para carga perezosa...Al leer una nota, si a priori no necesitas el dueño, la bbdd solo te trae la nota.
+    // Ventajas: rendimiento (menos datos si no necesitas el dueño).
+    // Y por último mapeo la columna FK owner_id en la tala note. Si quisieras obligar a que haya dueño podemos: nullable=false
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private AppUser owner;

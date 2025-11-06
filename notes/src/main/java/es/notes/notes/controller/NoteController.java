@@ -29,20 +29,23 @@ public class NoteController {
     }
 
     @GetMapping("/newNote")
-    public String goToNewNote(Model model) {
+    public String goToNewNote(Model model,
+                              @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
         model.addAttribute("note", new Note());
         return "newNote";
     }
 
     @PostMapping("/create")
-    public String createNote(@ModelAttribute("note") Note note) {
-        noteService.saveNote(note);
+    public String createNote(@ModelAttribute("note") Note note,
+                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        noteService.saveNoteFor(note, authUser.getUsername());
         return "redirect:/notes";
     }
 
     @GetMapping("/{id}")
-    public String showNote(@PathVariable Long id, Model model) {
-        Note note = noteService.findNoteById(id)
+    public String showNote(@PathVariable Long id, Model model,
+                           @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        Note note = noteService.findNoteByIdFor(id, authUser.getUsername())
                 .orElseThrow(() -> {
                     return new NoteNotFoundException(id);
                 });
@@ -51,22 +54,25 @@ public class NoteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteNote(@PathVariable Long id) {
-        noteService.deleteNoteById(id);
+    public String deleteNote(@PathVariable Long id,
+                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        noteService.deleteNoteByIdFor(id, authUser.getUsername());
         return "redirect:/notes";
     }
 
     @GetMapping("/{id}/edit")
-    public String editNote(@PathVariable Long id, Model model) {
-        Note note = noteService.findNoteById(id)
+    public String editNote(@PathVariable Long id, Model model,
+                           @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        Note note = noteService.findNoteByIdFor(id, authUser.getUsername())
                 .orElseThrow(() -> new NoteNotFoundException(id));
         model.addAttribute("note", note);
         return "noteEdit"; //Write form for editing and update note
     }
 
     @PutMapping("/{id}/update")
-    public String updateNote(@PathVariable Long id, @ModelAttribute Note note) {
-        noteService.updateNote(note);
+    public String updateNote(@PathVariable Long id, @ModelAttribute Note note,
+                             @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        noteService.updateNoteFor(note, authUser.getUsername());
         return "redirect:/notes";
     }
 

@@ -102,8 +102,8 @@
                 <version>11.7.2</version>
                 <configuration>
                     <url>jdbc:mysql://localhost:3306/notes?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Europe/Madrid</url>
-                    <user>${USERNAME_DB}</user>
-                    <password>${PASSWORD_DB}</password>
+                    <user>amp{USERNAME_DB}</user>
+                    <password>amp{PASSWORD_DB}</password>
                     <locations>
                         <location>filesystem:src/main/resources/db/migration</location>
                     </locations>

@@ -20,7 +20,12 @@ public class AppUser {
     @Column(nullable = false, length = 30)
     private String role;
 
-//    Relacion y añado notas
+    // Relación uno a muchos
+    // Aquí indicamos que el propietario está en la entidad Note en el campo "owner"
+    // Consecuencia: La FK(owner_id) "vive" en la tabla note.
+    // Cascade: propaga operaciones del padre a las hijas (como guardar, actualizar, borrar)
+    // Ejemplo: si guardas un AppUser con notes nuevas, se crean las notas; si borras el AppUser, se borran sus notas.
+    // orphanRemoval = true --> Si una Note deja de estar en la colección  se considera huérfana y JPA emite un DELETE de esa fila.
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes = new ArrayList<>();
 

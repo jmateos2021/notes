@@ -20,12 +20,12 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/login", "/register").permitAll()
+                        .requestMatchers("/note.css", "/css/**", "/js/**", "/images/**", "/login", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/api/notes", true)
+                        .defaultSuccessUrl("/notes", true)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

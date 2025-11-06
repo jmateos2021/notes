@@ -126,7 +126,7 @@ input:focus, textarea:focus {
     transition: box-shadow 0.2s, border-color 0.2s;
 }
 
-.btn-update { background-color: #198754; color: #fff; }
+.btn-update { background-color: #198754 !important; color: #fff !important; }
 .btn-cancel { background-color: #6c757d; color: #fff; }
 
 .btn-update:hover, .btn-cancel:hover {
