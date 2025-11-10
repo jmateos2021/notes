@@ -16,7 +16,7 @@ public class NoteController {
 
     private NoteService noteService;
 
-    @Autowired
+//    @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }
@@ -43,9 +43,9 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public String showNote(@PathVariable Long id, Model model,
-                           @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
-        Note note = noteService.findNoteByIdFor(id, authUser.getUsername())
+        public String showNote(@PathVariable Long id, Model model,
+                @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+            Note note = noteService.findNoteByIdFor(id, authUser.getUsername())
                 .orElseThrow(() -> {
                     return new NoteNotFoundException(id);
                 });

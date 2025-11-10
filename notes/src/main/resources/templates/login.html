@@ -2,9 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/note.css" rel="stylesheet">
+    <link th:href="@{/css/note.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -16,7 +17,7 @@
         <div th:if="${param.registered}" class="alert alert-success text-center py-2">Registration successful. Please log in.</div>
 
         <form th:action="@{/login}" method="post" class="d-flex flex-column gap-3">
-            <input type="text" name="username" class="form-control" placeholder="Username" required>
+            <input type="text" name="username" class="form-control" maxlength="50" placeholder="Username" required>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 

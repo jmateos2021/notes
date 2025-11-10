@@ -13,7 +13,7 @@ public class AuthService {
     private final AppUserRepository repo;
     private final PasswordEncoder encoder;
 
-    @Autowired
+//    @Autowired
     public AuthService(AppUserRepository repo, PasswordEncoder encoder) {
         this.repo = repo;
         this.encoder = encoder;

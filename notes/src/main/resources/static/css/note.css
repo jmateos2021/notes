@@ -105,6 +105,7 @@ body {
    Forms (edit/new)
 ======================= */
 .edit-card, .new-card {
+    position: relative; /* ✅ Esto fija el badge dentro del card */
     max-width: 600px;
     margin: 30px auto;
     padding: 25px 30px;

@@ -18,19 +18,23 @@ public class Note {
     // Ventajas: rendimiento (menos datos si no necesitas el dueño).
     // Y por último mapeo la columna FK owner_id en la tala note. Si quisieras obligar a que haya dueño podemos: nullable=false
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private AppUser owner;
 
     public AppUser getOwner() {
         return owner;
     }
 
-    public void setOwner(AppUser owner) {
-        this.owner = owner;
-    }
-
+//  NO PONER SETTER A OWNER PARA QUE NO PUEDA CAMBIARSE UNA VEZ HECHA LA NOTA :D
+//    public void setOwner(AppUser owner) {
+//        this.owner = owner;
+//    }
 
     public Note () {
+    }
+
+    public Note (AppUser owner) {
+        this.owner = owner;
     }
 
     public boolean isCompleted() {

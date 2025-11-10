@@ -17,7 +17,7 @@ public class NoteService {
     private final NoteRepository noteRepository;
     private final AppUserRepository userRepository;
 
-    @Autowired
+    //    @Autowired
     public NoteService(NoteRepository noteRepository, AppUserRepository userRepository) {
         this.noteRepository = noteRepository;
         this.userRepository = userRepository;
@@ -26,8 +26,13 @@ public class NoteService {
     //    Create a note
     public void saveNoteFor(Note note, String username) {
         AppUser owner = userRepository.findByUsername(username).orElseThrow();
-        note.setOwner(owner);
-        noteRepository.save(note);
+
+        Note noteToSave = new Note(owner);
+        noteToSave.setTitle(note.getTitle());
+        noteToSave.setContent(note.getContent());
+        noteToSave.setCompleted(note.isCompleted());
+
+        noteRepository.save(noteToSave);
     }
 
     //    Show every created note
@@ -48,13 +53,12 @@ public class NoteService {
 
     //    The note exists
     public boolean existsByIdFor(Long id, String username) {
-        Note n = noteRepository.findByIdAndOwnerUsername(id, username).orElseThrow();
-        return noteRepository.existsById(n.getId());
+        return noteRepository.existsByIdAndOwnerUsername(id, username);
     }
 
     //    Update note
     public Note updateNoteFor(Note note, String username) {
-        Note n = noteRepository.findByIdAndOwnerUsername(note.getId(),username).orElseThrow();
+        Note n = noteRepository.findByIdAndOwnerUsername(note.getId(), username).orElseThrow();
         n.setTitle(note.getTitle());
         n.setContent(note.getContent());
         n.setCompleted(note.isCompleted());
